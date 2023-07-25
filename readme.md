@@ -10,9 +10,9 @@ Install using npm:
 npm i 
 npm start
 ```
-API started to listen on default port 3000 & API docs available at Open 
+API started to listen on default port 3000. 
 
-http://`<app_host>`:`<app_port>`/api-docs in your browser to view the documentation.
+Open http://`<app_host>`:`<app_port>`/api-docs in your browser to view the documentation.
 
 This API has mysql dependency, 
 
