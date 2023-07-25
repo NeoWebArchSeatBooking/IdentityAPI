@@ -39,7 +39,7 @@ const fetchUserWithToken = async (req, res) => {
 };
 
 const verifyToken = async (req, res) => {
-  let response = getErrorResponse(403, "No authorize header");
+  let response = getErrorResponse(400, "Bad Request, pass valid bearer token in authroization");
   try {
     const token = fetchToken(req);
     if (token) {

@@ -4,6 +4,7 @@ WORKDIR /opt/app
 
 COPY package* .
 COPY *.js .
+COPY swagger.json .
 
 RUN npm ci --omit=dev
 

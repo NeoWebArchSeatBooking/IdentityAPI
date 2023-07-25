@@ -1,0 +1,140 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Identity provider API verifies the token, fetch user information leveraging google oauth api",
+        "version": "1.0.0",
+        "title": "IDP API"
+    },
+    "schemes": ["http"],
+    "host": "localhost:3000",
+    "basePath": "/idp",
+    "paths" : {
+        "/verify" : {
+            "get" : {
+                "summary" : "Verify the token & fetch the user profile",
+                "description": "validate the google's oauth authorization token & fetch user profile",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "type": "string"
+                      }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Response"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, pass valid bearer token in authroization",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "System failed to respond",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/fetch" : {
+            "get" : {
+                "summary" : "fetch user profile for the given token",
+                "description": "fetch user profile for the given token",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Response"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, pass valid bearer token in authroization",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "System failed to respond",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "Metadata": {
+            "type": "object",
+            "properties": {
+                "status": {
+                     "type": "integer"
+                },
+                "statusText": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Profile": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "Response": {
+            "type": "object",
+            "properties": {
+                "metadata": {
+                     "$ref": "#/definitions/Metadata"
+                },
+                "profile": {
+                    "$ref": "#/definitions/Profile"
+                }
+            }
+        },
+        "InvalidResponse": {
+            "type": "object",
+            "properties": {
+                "metadata": {
+                     "$ref": "#/definitions/Metadata"
+                }
+            }
+
+        }
+    }
+}

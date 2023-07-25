@@ -13,7 +13,7 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 80
+    targetPort: 3000
     nodePort: 30005
 ---
 apiVersion: apps/v1
@@ -48,7 +48,7 @@ spec:
           requests:
              cpu: 500m
         ports:
-        - containerPort:  80
+        - containerPort:  3000
         env:
         - name: DB_HOST
-          value: 192.168.49.2
+          value: 192.168.65.2

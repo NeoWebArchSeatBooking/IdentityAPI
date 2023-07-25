@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json')
 const { fetchUserWithToken, verifyToken } = require("./idp.authenticator");
 
-app.post("/idp/verify", verifyToken);
-app.post("/idp/fetch", fetchUserWithToken);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.get("/idp/verify", verifyToken);
+app.get("/idp/fetch", fetchUserWithToken);
 
 const port = process.env.PORT || 3000;
 
