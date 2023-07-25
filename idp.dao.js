@@ -10,7 +10,7 @@ class Profile {
   static findById(userId) {
     return new Promise((resolve, reject) => {
       sql.query(
-        "SELECT * FROM IDP_USER WHERE USERID= ?",
+        "SELECT * FROM IDP_USERS WHERE USER_ID= ?",
         userId,
         (err, res) => {
           if (err) {
@@ -19,7 +19,7 @@ class Profile {
           }
 
           if (res.length) {
-            resolve({ status: 200, profle: res[0] });
+            resolve({ status: 200, profile: { userId:res[0].user_id,name:res[0].user_name,role:res[0].user_role} });
           } else {
             resolve({ status: 404 });
           }
@@ -30,7 +30,8 @@ class Profile {
 
   static save(profile) {
     return new Promise((resolve, reject) => {
-      sql.query("INSRT INTO IDP_USER SET ?", profile, (err, res) => {
+      const sqlInsert = `INSERT INTO IDP_USERS(user_id,user_name,user_role) VALUES('${profile.userId}','${profile.name}','${profile.role}')`
+      sql.query(sqlInsert, (err, _res) => {
         if (err) {
           console.log(`err: ${err.message}`);
           reject(err);

@@ -1,4 +1,5 @@
 const { fetchUserInfo, validateTokenInfo } = require("./idp.provider");
+const { getErrorResponse,getSuccesResponse } = require("./idp.helper")
 const Profile = require("./idp.dao");
 
 const fetchToken = (req) => {
@@ -44,7 +45,8 @@ const verifyToken = async (req, res) => {
     if (token) {
       response = await validateTokenInfo(token);
       if (response.metadata.status === 200) {
-        const record = await Profile.findById(toknResp.profile.userId);
+        const record = await Profile.findById(response.profile.userId);
+        console.log(record)
         if (record.status === 200) {
           response = getSuccesResponse(record.profile);
         } else {

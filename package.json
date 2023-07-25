@@ -1,21 +1,21 @@
 {
-  "name": "googleauthentication",
+  "name": "google-token-authentication",
   "version": "1.0.0",
-  "description": "",
+  "description": "Identity provider based on google oauth api",
   "main": "index.js",
   "dependencies": {
     "axios": "^1.4.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^3.5.2"
   },
   "devDependencies": {
     "eslint": "^8.44.0"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" "
   },
-  "author": "DhamoSG",
+  "author": "Dhamo SG",
   "license": "ISC",
   "type": "commonjs"
 }

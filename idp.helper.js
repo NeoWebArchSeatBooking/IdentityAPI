@@ -18,4 +18,4 @@ const getSuccesResponse = (payload) => {
   };
 };
 
-module.export = { getErrorResponse, getSuccesResponse };
+module.exports = { getErrorResponse, getSuccesResponse };
