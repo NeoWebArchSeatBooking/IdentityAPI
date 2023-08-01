@@ -1,0 +1,123 @@
+name: Staging CI - Code SAST, Docker Sanity & Docker Scan
+on:
+  pull_request:
+    branches: ["stage"]
+    types: ["opened", "edited", "reopened"]
+env:
+  TEST_TAG: idp_api
+permissions:
+  pull-requests: write
+
+jobs:
+  npm_build:
+    runs-on: ubuntu-latest
+    name: NPM Build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "npm"
+      - run: npm ci
+      - run: npm test
+  CodeQL:
+    runs-on: ubuntu-latest
+    name: CodeQL Scan
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:javascript"
+  build_docker:
+    runs-on: ubuntu-latest
+    name: Build Docker
+    needs: ["npm_build", "CodeQL"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build docker
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          outputs: type=docker,dest=/tmp/${{ env.TEST_TAG }}.tar
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.TEST_TAG }}
+          path: /tmp/${{ env.TEST_TAG }}.tar
+  test_docker_image:
+    runs-on: ubuntu-latest
+    needs: ["build_docker"]
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.TEST_TAG }}
+          path: /tmp
+      - name: Load image
+        run: |
+          docker load --input /tmp/${{ env.TEST_TAG }}.tar
+      - name: Test Docker Container
+        run: |
+          docker run -d -p 8081:3000 --name node_api ${{ env.TEST_TAG }}
+          sleep 30
+          docker ps
+          if curl http://localhost:8081/api/health > HTML_output
+          then exit 0
+          else exit 1
+          fi
+          docker stop node_api
+  scan_docker_image:
+    runs-on: ubuntu-latest
+    needs: ["build_docker"]
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.TEST_TAG }}
+          path: /tmp
+      - name: Load image
+        run: |
+          docker load --input /tmp/${{ env.TEST_TAG }}.tar
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v0.18.1
+        with:
+          command: cves,recommendations
+          image: ${{ env.TEST_TAG }}
+          ignore-unchanged: true
+          only-severities: critical,high
+          write-comment: true
+          github-token: ${{secrets.GITHUB_TOKEN}}
+  sanity_done:
+    runs-on: ubuntu-latest
+    needs: ["scan_docker_image", "test_docker_image"]
+    steps:
+      - name: Ready for PR Approve
+        run: echo "sanity success"

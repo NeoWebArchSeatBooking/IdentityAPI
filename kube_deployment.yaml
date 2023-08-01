@@ -11,17 +11,17 @@ spec:
     name: idp-pod
   type: NodePort
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 3000
-    nodePort: 30005
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30005
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  idp-service
+  name: idp-service
   labels:
-    app:  seatbooking-app
+    app: seatbooking-app
     name: idp-service
 spec:
   selector:
@@ -42,13 +42,17 @@ spec:
         name: idp-pod
     spec:
       containers:
-      - name: idp-container
-        image: dhamodaran/idp_api:latest
-        resources:
-          requests:
-             cpu: 500m
-        ports:
-        - containerPort:  3000
-        env:
-        - name: DB_HOST
-          value: 192.168.65.2
+        - name: idp-container
+          image: dhamodaran/idp_api:latest
+          resources:
+            limits:
+              cpu: 200m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: 192.168.65.2
