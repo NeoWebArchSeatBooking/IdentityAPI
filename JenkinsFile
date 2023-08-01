@@ -1,0 +1,16 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Deploy to K8s') {
+      steps {
+        withKubeConfig([credentialsId: 'kube-config']) {
+          bat 'kubectl get deployment'
+          bat 'kubectl delete deployment/idp-deployment'
+          bat 'kubectl delete service/idp-service'
+          bat 'kubectl create -f ./kube_deployment.yaml'
+        }
+      } 
+    }
+  }
+}
