@@ -7,9 +7,9 @@
     },
     "schemes": ["http"],
     "host": "localhost:3000",
-    "basePath": "/idp",
+    "basePath": "/v1/idp",
     "paths" : {
-        "/verify" : {
+        "/status" : {
             "get" : {
                 "summary" : "Verify the token & fetch the user profile",
                 "description": "validate the google's oauth authorization token & fetch user profile",
