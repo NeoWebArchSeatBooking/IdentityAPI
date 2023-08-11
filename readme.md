@@ -12,7 +12,7 @@ npm start
 ```
 API started to listen on default port 3000. 
 
-Open http://`<app_host>`:`<app_port>`/api-docs in your browser to view the documentation.
+Open http://`<app_host>`:`<app_port>`/v1/api-docs in your browser to view the documentation.
 
 This API has mysql dependency, 
 
