@@ -86,7 +86,7 @@ jobs:
           docker run -d -p 8081:3000 --name node_api ${{ env.TEST_TAG }}
           sleep 30
           docker ps
-          if curl http://localhost:8081/api/health > HTML_output
+          if curl http://localhost:8081/v1/api-docs > HTML_output
           then exit 0
           else exit 1
           fi
