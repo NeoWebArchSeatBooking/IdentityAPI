@@ -11,8 +11,8 @@ app.get("/v1/idp/fetch", fetchUserWithToken);
 const port = process.env.PORT || 3000;
 
 const sql = require("./idp.db");
-sql.getConnection((err,_conn)=>{
-  if(err){
+sql.getConnection((err,conn)=>{
+  if(err && !conn){
     console.log('DB Connection failed')
     console.error(err)
     process.exit(1)
