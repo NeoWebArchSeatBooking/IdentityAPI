@@ -3,5 +3,12 @@
   "extends": [
     "eslint:recommended"
   ],
-  "rules": { "eqeqeq": ["error", "always"] }
+  "rules": { "eqeqeq": ["error", "always"] },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  }
 }
