@@ -37,10 +37,10 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: idp-service
+  name: idp-deployment
   labels:
     app: seatbooking-app
-    name: idp-service
+    name: idp-deployment
 spec:
   selector:
     matchLabels:
