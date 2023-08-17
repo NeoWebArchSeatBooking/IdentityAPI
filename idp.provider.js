@@ -4,7 +4,7 @@ const validateTokenInfo = async (token) => {
   const response = { metadata: {} };
   try {
     const { status, statusText, data } = await axios.get(
-      `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${token}`
+      `https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=${token}`
     );
     response.metadata.status = status;
     response.metadata.statusText = statusText;
@@ -22,7 +22,7 @@ const fetchUserInfo = async (token) => {
   const response = { metadata: {} };
   try {
     const { status, statusText, data } = await axios.get(
-      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`
     );
     response.metadata.status = status;
     response.metadata.statusText = statusText;
