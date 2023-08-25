@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" "
+    "test": "echo \"Error: no test specified\" ",
+    "lint": "eslint . "
   },
   "author": "Dhamo SG",
   "license": "ISC",

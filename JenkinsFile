@@ -6,8 +6,9 @@ pipeline {
       steps {
         withKubeConfig([credentialsId: 'kube-config']) {
           bat 'kubectl get deployment'
-          bat 'kubectl delete deployment/idp-deployment'
-          bat 'kubectl delete service/idp-service'
+          bat 'kubectl delete deployment/idp-deployment --ignore-not-found=true'
+          bat 'kubectl delete service/idp-service --ignore-not-found=true'
+          bat 'kubectl delete service/idpservice --ignore-not-found=true'
           bat 'kubectl create -f ./kube_deployment.yaml'
         }
       } 

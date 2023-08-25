@@ -31,11 +31,12 @@ class Profile {
   static save(profile) {
     return new Promise((resolve, reject) => {
       const sqlInsert = `INSERT INTO IDP_USERS(user_id,user_name,user_role) VALUES('${profile.userId}','${profile.name}','${profile.role}')`
-      sql.query(sqlInsert, (err, _res) => {
+      sql.query(sqlInsert, (err, res) => {
         if (err) {
           console.log(`err: ${err.message}`);
           reject(err);
         }
+        console.log(res)
         resolve({ status: 200 });
       });
     });
