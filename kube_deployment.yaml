@@ -74,3 +74,18 @@ spec:
           env:
             - name: DB_HOST
               value: 192.168.65.2
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sbasecrets
+                  key: idp_db_user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sbasecrets
+                  key: idp_db_password
+            - name: DB_SCHEME
+              valueFrom:
+                secretKeyRef:
+                  name: sbasecrets
+                  key: idp_db_schema 

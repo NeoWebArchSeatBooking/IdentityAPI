@@ -4,7 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json')
 const { fetchUserWithToken, verifyToken } = require("./idp.authenticator");
 
-app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/v1/idp/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.get("/v1/idp/status", verifyToken);
 app.get("/v1/idp/fetch", fetchUserWithToken);
 
