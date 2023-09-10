@@ -27,7 +27,7 @@ const fetchUserInfo = async (token) => {
     response.metadata.status = status;
     response.metadata.statusText = statusText;
     if (status === 200 && data.email) {
-      response.profile = { name: data.name, userId: data.email, role: "USER" };
+      response.profile = { name: data.name, userId: data.email, role: "user" };
     }
   } catch (err) {
     console.error(err.message);
