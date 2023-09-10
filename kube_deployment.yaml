@@ -16,24 +16,6 @@ spec:
       targetPort: 3000
       #nodePort: 30005
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: idpservice
-  labels:
-    app: seatbooking-app
-    name: idpservice
-spec:
-  selector:
-    app: seatbooking-app
-    name: idp-pod
-  type: NodePort
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
-      nodePort: 30005      
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
