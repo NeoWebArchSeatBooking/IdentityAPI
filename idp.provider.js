@@ -4,30 +4,18 @@ const validateTokenInfo = async (token) => {
   const response = { metadata: {} };
   try {
     const { status, statusText, data } = await axios.get(
-      `https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=${token}`
-    );
-    response.metadata.status = status;
-    response.metadata.statusText = statusText;
-    if (status === 200 && data.email) {
-      response.profile = { userId: data.email };
-    }
-  } catch (err) {
-    console.error(err.message);
-    getMetadata(err.response, response.metadata);
-  }
-  return response;
-};
-
-const fetchUserInfo = async (token) => {
-  const response = { metadata: {} };
-  try {
-    const { status, statusText, data } = await axios.get(
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`
     );
     response.metadata.status = status;
     response.metadata.statusText = statusText;
     if (status === 200 && data.email) {
-      response.profile = { name: data.name, userId: data.email, role: "user" };
+      response.profile = { 
+        userId: data.email,
+        name: data.name,
+        firstName: data.given_name,
+        lastName:  data.family_name,
+        profilePic: data.picture
+      };
     }
   } catch (err) {
     console.error(err.message);
@@ -53,4 +41,4 @@ function getMetadata(resp, metadata) {
   }
 }
 
-module.exports = { validateTokenInfo, fetchUserInfo };
+module.exports = { validateTokenInfo };
