@@ -9,7 +9,7 @@
     "host": "localhost:3000",
     "basePath": "/v1/idp",
     "paths" : {
-        "/status" : {
+        "/profile" : {
             "get" : {
                 "summary" : "Verify the token & fetch the user profile",
                 "description": "validate the google's oauth authorization token & fetch user profile",
@@ -47,10 +47,10 @@
                 }
             }
         },
-        "/fetch" : {
-            "get" : {
-                "summary" : "fetch user profile for the given token",
-                "description": "fetch user profile for the given token",
+        "/register" : {
+            "post" : {
+                "summary" : "register user profile for the given token",
+                "description": "register user profile for the given token into IDP",
                 "produces": ["application/json"],
                 "parameters": [
                     {
@@ -112,6 +112,15 @@
                     "type": "string"
                 },
                 "role": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "profilePic": {
                     "type": "string"
                 }
             }

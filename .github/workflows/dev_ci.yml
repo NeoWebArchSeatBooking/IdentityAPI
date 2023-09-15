@@ -1,14 +1,19 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 name: Development CI
 
 on:
   push:
-    branches: ["feature*"]
+    branches: ["feature*","main"]
   pull_request:
     branches: ["main"]
     types: ["opened", "edited", "reopened"]
 jobs:
+  dependency_check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: h4sh5/npm-mal-feed-check@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
     runs-on: ubuntu-latest
     steps:
