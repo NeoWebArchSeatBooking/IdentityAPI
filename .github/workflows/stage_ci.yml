@@ -89,6 +89,7 @@ jobs:
           if curl http://localhost:8081/v1/idp/api-docs > HTML_output
           then exit 0
           else exit 1
+          fi
           docker stop node_api
   scan_docker_image:
     runs-on: ubuntu-latest

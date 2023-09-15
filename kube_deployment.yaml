@@ -55,7 +55,7 @@ spec:
             - containerPort: 3000
           env:
             - name: CHECK_DB
-              value: true
+              value: enable
             - name: DB_HOST
               value: 192.168.65.2
             - name: DB_USER
