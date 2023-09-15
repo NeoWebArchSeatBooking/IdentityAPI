@@ -9,7 +9,7 @@ app.use('/v1/idp/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.get("/v1/idp/profile", verifyToken);
 app.post("/v1/idp/register", registerUser);
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 if(process.env.CHECK_DB){
   const sql = require("./idp.db");
