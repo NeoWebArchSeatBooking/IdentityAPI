@@ -6,6 +6,7 @@ const { registerUser, verifyToken } = require("./idp.authenticator");
 
 app.use(express.json())
 app.use('/v1/idp/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/v1/idp/health', (req,res)=>res.status(200).json({reqId:req.query['id']??"NA"}))
 app.get("/v1/idp/profile", verifyToken);
 app.post("/v1/idp/register", registerUser);
 
