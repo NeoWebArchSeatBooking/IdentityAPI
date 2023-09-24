@@ -28,3 +28,36 @@ and the table script
 ```sql
 create table idp_users(user_id varchar(50),user_name varchar(50),user_role varchar(5))
 ```
+## API Reference
+| Name               |Identity Service |
+|--------------------|-------------------------------|
+|Description| This service provides an API for validate and fetch user profile.
+|Capabilities          |    UserProfile        |
+
+#### Service API
+| Queries |
+| --------|
+| Synchronous:  fetchProfile       | 
+
+|Non Functional Requirement| Covered |
+|----|--|
+|Availability |90.00%|
+|Profile fetch SLA| 2 secs|
+
+| Observability | |
+|-----|--|
+|health check endpoint|v1/api/health|
+
+### Implementation:
+|Domain Model|
+|--|
+|NA|
+
+|Dependencies|
+|--|
+|Google: oauth2|
+
+|Subscribes to |
+|----|
+|API Gateway|
+|Booking API|
